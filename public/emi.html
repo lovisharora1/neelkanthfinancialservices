@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EMI Calculator</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="styles.css" rel="stylesheet">
+  <link href="script.js" rel="script">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer">
+  <style>
+    body {
+      background-color: #f9f9f9;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="navbar">
+    <div class="logo">NFS</div>
+    <div class="hamburger" onclick="toggleMenu()">&#9776;</div>
+  </header>
+
+  <!-- Popup Menu -->
+  <div id="popupMenu" class="popup-menu">
+    <div class="close-btn" onclick="toggleMenu()">&times;</div>
+    <ul>
+      <a href="index.html" class="link-text">
+        <ul>
+          <li><button>Home</button></li>
+        </ul>
+      </a>
+      <li>Services</li>
+      <a href="mutual.html">
+        <li><button>Mutual Funds</button></li>
+      </a>
+      <a href="sip.html">
+        <li><button>SIP</button></li>
+      </a>
+      <a href="swp.html">
+        <li><button>SWP</button></li>
+      </a>
+      <a href="stp.html">
+        <li><button>STP</button></li>
+      </a>
+      <a href="aif.html">
+        <li><button>AIF</button></li>
+      </a>
+      <a href="pms.html">
+        <li><button>PMS</button></li>
+      </a>
+      <a href="hi.html">
+        <li><button>Health Insurance</button></li>
+      </a>
+      <a href="li.html">
+        <li><button>Life Insurance</button></li>
+      </a>
+      <li>Calculators</li>
+      <a href="sipcal.html" alt="sip">
+        <li><button>SIP Calculator</button></li>
+      </a>
+      <a href="emi.html" alt="emi">
+        <li><button>EMI Calculator</button></li>
+      </a>
+      <li>Contact Us</li>
+      <a href="booka.html">
+        <li><button>Book An Appointment</button></li>
+      </a>
+      <a href="cusreview.html">
+        <li><button>Customer Review</button></li>
+      </a>
+      <br>
+      <a href="https://app.mfcentral.com/investor/signin">
+        <li><button>Login As Client</button></li>
+    </a>
+    </ul>
+    <br>
+  </div>
+  <br>
+  <br>
+  <br><br><br>
+  <div>
+    <h1>Neelkanth Financial Services</h1>
+  </div>
+  <div class="calculator-container">
+    <div class="form-section">
+      <h1>EMI Calculator</h1>
+      <label for="loanAmount">Loan Amount (₹):</label>
+      <input type="number" id="loanAmount" placeholder="Enter loan amount" value="100000">
+      <label for="interestRate">Interest Rate (%):</label>
+      <input type="number" id="interestRate" placeholder="Enter interest rate" value="8.5">
+      <label for="loanTenure">Loan Tenure (Years):</label>
+      <input type="number" id="loanTenure" placeholder="Enter loan tenure" value="5">
+      <div class="result" id="monthlyEMI">Monthly EMI: ₹0</div>
+      <div class="result-values">
+        <p><span>Principal:</span> ₹<span id="principalAmount">0</span></p>
+        <p><span>Interest:</span> ₹<span id="interestAmount">0</span></p>
+        <p><span>Total Payable:</span> ₹<span id="totalPayable">0</span></p>
+      </div>
+    </div>
+    <div class="chart-section">
+      <div class="chart-container">
+        <canvas id="emiChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function calculateEMI(principal, rate, tenure) {
+      const monthlyRate = rate / (12 * 100);
+      const months = tenure * 12;
+      const emi = (principal * monthlyRate * Math.pow(1 + monthlyRate, months)) /
+        (Math.pow(1 + monthlyRate, months) - 1);
+      return emi.toFixed(2);
+    }
+
+    function updateChart(principal, interest) {
+      const ctx = document.getElementById("emiChart").getContext("2d");
+      const data = [principal, interest];
+      const colors = ["#053160", "#F4C10F"];
+      if (window.myChart) {
+        window.myChart.destroy();
+      }
+      window.myChart = new Chart(ctx, {
+        type: "doughnut",
+        data: {
+          labels: ["Principal", "Interest"],
+          datasets: [{
+            data,
+            backgroundColor: colors,
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'bottom',
+            },
+            tooltip: {
+              callbacks: {
+                label: (context) => `${context.label}: ₹${context.raw.toLocaleString()}`
+              }
+            }
+          }
+        }
+      });
+    }
+
+    document.addEventListener("input", () => {
+      const principal = +document.getElementById("loanAmount").value;
+      const rate = +document.getElementById("interestRate").value;
+      const tenure = +document.getElementById("loanTenure").value;
+
+      const emi = calculateEMI(principal, rate, tenure);
+      const totalPayable = emi * tenure * 12;
+      const interest = totalPayable - principal;
+
+      document.getElementById("monthlyEMI").textContent = `Monthly EMI: ₹${emi}`;
+      document.getElementById("principalAmount").textContent = principal.toLocaleString();
+      document.getElementById("interestAmount").textContent = interest.toLocaleString();
+      document.getElementById("totalPayable").textContent = totalPayable.toLocaleString();
+      updateChart(principal, interest);
+    });
+
+    // Initial Calculation
+    document.dispatchEvent(new Event("input"));
+
+  </script>
+  <br>
+  <footer>
+    <div class="footer-container">
+      <div class="footer-left">
+        <h2>Neelkanth Financial Services</h2>
+        <p>WG-416<br>Niwa Suraj Ganj<br>SUS Nagar,Jalandhar,Punjab,144001</p>
+        <p><strong>CEO: Lovish Arora</strong></p>
+        <p><strong>Manager: Diya</strong></p>
+                <p><strong>Phone:</strong></p>
+                <p>+91 9876776741 ,+91 7888969615</p>
+        <p><strong>Email:</strong></p>
+        <p>
+          <a href="mailto:aroralovish476@gmail.com">aroralovish476@gmail.com</a>
+        </p>
+      </div>
+      <div class="footer-right">
+        <h3>More</h3>
+        <ul>
+          <li><a href="sipcal.html">SIP Calculator</a></li>
+          <li><a href="emi.html">EMI Calculator</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="social-icons">
+      <h2>Follow Us On Social Media</h2>
+      <a href="https://www.instagram.com/nfs_jalandhar?igsh=cHFyczdzZHNmeWZu&utm_source=qr "><i
+          class="fa-brands fa-instagram"></i></a>
+          <a href="https://api.whatsapp.com/send/?phone=9876776741"><i class="fa-brands fa-whatsapp"></i></a>
+      <a href="https://www.facebook.com/share/15j8RXeAqd/"><i class="fa-brands fa-facebook"></i></a>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; Copyright <strong>Neelkanth Financial Services</strong>. All Rights Reserved</p>
+    </div>
+  </footer>
+  <button id="backToTop" onclick="scrollToTop()">↑</button>
+  <script src="script.js"></script>
+</body>
+
+</html>
