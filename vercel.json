@@ -25,7 +25,6 @@
       }
     ],
     "env": {
-      "MONGODB_ATLAS_URL": "mongodb+srv://aroralovish476:AYBWHqe2btPq5gab@neelkanthuserinformatio.cvam6.mongodb.net/data?retryWrites=true&w=majority&appName=NeelKanthUserInformation"
+        "MONGODB_ATLAS_URL": "mongodb+srv://aroralovish476:AYBWHqe2btPq5gab@neelkanthuserinformatio.cvam6.mongodb.net/data?retryWrites=true&w=majority&appName=NeelKanthUserInformation"
     }
-  }
-  
+}
