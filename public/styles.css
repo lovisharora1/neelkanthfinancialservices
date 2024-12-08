@@ -913,6 +913,10 @@ canvas {
     margin: 0 auto;
     width: 80%;
   }
+  .uni-text-container {
+    width: 2050px;
+    margin-left: 26px;
+  }
 }
 .neel h1 {
   color: #053160;
