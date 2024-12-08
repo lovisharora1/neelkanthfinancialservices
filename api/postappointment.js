@@ -2,9 +2,9 @@ import mongoose from 'mongoose';
 import User from './models/userModel.js';
 
 // Connect to MongoDB with enhanced configuration
-// console.log(typeof(process.env.MONGODB_ATLAS_URL));
+console.log(typeof(process.env.MONGODB_ATLAS_URL));
 console.log(process.env.MONGODB_ATLAS_URL);
-mongoose.connect('mongodb+srv://aroralovish476:c7PiuRgxSUeZvcwM@neelkanthuserinformatio.cvam6.mongodb.net/data?retryWrites=true&w=majority', {
+mongoose.connect(process.env.MONGODB_ATLAS_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     connectTimeoutMS: 30000, 

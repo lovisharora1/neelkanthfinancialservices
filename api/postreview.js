@@ -3,8 +3,8 @@ import Review from './models/reviewModel.js';
 
 // Connect to MongoDB with enhanced configuration
 mongoose.connect(process.env.MONGODB_ATLAS_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+    // useNewUrlParser: true,
+    // useUnifiedTopology: true,
     connectTimeoutMS: 30000, 
     socketTimeoutMS: 45000,  
     maxPoolSize: 10,         
