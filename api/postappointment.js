@@ -5,8 +5,8 @@ import User from './models/userModel.js';
 console.log(typeof(process.env.MONGODB_ATLAS_URL));
 console.log(process.env.MONGODB_ATLAS_URL);
 mongoose.connect(process.env.MONGODB_ATLAS_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+    // useNewUrlParser: true,
+    // useUnifiedTopology: true,
     connectTimeoutMS: 30000, 
     socketTimeoutMS: 45000,  
     maxPoolSize: 10,         
