@@ -2,6 +2,8 @@ import mongoose from 'mongoose';
 import User from './models/userModel.js';
 
 // Connect to MongoDB with enhanced configuration
+console.log(typeof(process.env.MONGODB_ATLAS_URL));
+console.log(process.env.MONGODB_ATLAS_URL);
 mongoose.connect(process.env.MONGODB_ATLAS_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
