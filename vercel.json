@@ -1,18 +1,7 @@
 {
     "version": 2,
-    "headers": [
-        {
-          "source": "/api/(.*)",
-          "headers": [
-            { "key": "Access-Control-Allow-Origin", "value": "*" },
-            { "key": "Access-Control-Allow-Methods", "value": "GET, POST, PUT, DELETE, OPTIONS" },
-            { "key": "Access-Control-Allow-Headers", "value": "Content-Type, Authorization" }
-          ]
-        }
-      ],
-      "rewrites": [
-        { "source": "/", "destination": "/public/index.html" },
-        { "source": "/api/(.*)", "destination": "/api/server.js" }
-      ]
+    "rewrites": [
+      { "source": "/api/(.*)", "destination": "/api/$1" }
+    ]
+  }
   
-}
